@@ -8,10 +8,6 @@ var startButton = document.querySelector("#start-button"); // assigning variable
 
 var answerButton = document.querySelector(".answer-button"); // assigning variable of answerButton to the class of "answer-button"
 
-var quizQuestion = document.createElement("h2");
-var answerList = document.createElement("ol");
-
-
 var secondsRemaining = 90;
 var timerInterval;
 
@@ -68,14 +64,19 @@ function displayQuestions() {
     answer3.textContent = questions[i].choices[2];
     answer4.textContent = questions[i].choices[3];
     document.body.appendChild(quizSection);
-    document.body.appendChild(quizQuestion);
-    document.body.appendChild(answerHolder);
-    document.body.appendChild(answerList);
-    document.body.appendChild(answer1);
-    document.body.appendChild(answer2);
-    document.body.appendChild(answer3);
-    document.body.appendChild(answer4);
+    quizSection.appendChild(quizQuestion);
+    quizSection.appendChild(answerHolder);
+    answerHolder.appendChild(answerList);
+    answerList.appendChild(answer1);
+    answerList.appendChild(answer2);
+    answerList.appendChild(answer3);
+    answerList.appendChild(answer4);
   }
+}
+
+//Function for choice of answer
+function answerChoice() {
+
 }
 
 // Function to subtract time from timer on wrong score
@@ -89,6 +90,10 @@ startButton.addEventListener("click", function () {
   tickTimer();
   displayQuestions();
 })
+
+answerButton.addEventListener("click", function () {
+  answerChoice
+});
 
 // Store High Scores
 
