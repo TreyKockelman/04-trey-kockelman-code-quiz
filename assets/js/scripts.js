@@ -6,12 +6,13 @@ var timerText = document.querySelector(".quiz-seconds"); // assigning variable o
 
 var startButton = document.querySelector("#start-button"); // assigning variable of startButton to the class of "start-button" in the html
 
-var answerButton = document.querySelector(".answer-button"); // assigning variable of answerButton to the class of "answer-button"
+var buttons = document.querySelectorAll("button"); // assigning variable of button to all buttons
 
 var secondsRemaining = 90;
 var timerInterval;
 
-var highScore = 0;
+var highScore = localStorage.getItem("highScore");
+var initials = localStorage.getItem("initials");
 
 
 var questions = [
@@ -35,17 +36,12 @@ var questions = [
 function tickTimer() {
   timerInterval = setInterval (function () {
     secondsRemaining--; // ticks timer down 1
-    timerText.textContent = secondsRemaining + " seconds remaining"; // sets the content of the text on the timer to whatever is left
+    timerText.textContent = "Timer: " + secondsRemaining + " seconds remaining"; // sets the content of the text on the timer to whatever is left
     if (secondsRemaining === 0) {
       clearInterval(timerInterval);
     } // clears interval when timer hits zero
   }, 1000); // sets interval tick to 1 second
 };
-
-function resetTimer () {
-  secondsRemaining = 90;
-  timerText.textContent = secondsRemaining + " seconds remaining";
-}
 
 // Function for Scrolling Questions
 function displayQuestions() {
@@ -74,40 +70,32 @@ function displayQuestions() {
   }
 }
 
-//Function for choice of answer
-function answerChoice() {
-
-}
-
 // Function to subtract time from timer on wrong score
 function wrongAnswer() {
   secondsRemaining -= 10;
 }
+
+// Store High Scores
+function storeHighScore() {
+  var highScore = 0;
+  var initials = "";
+  localStorage.setItem("high-score", highScore);
+  localStorage.setItem("initials", initials);
+}
+
+// Function for high score display
+
+
 
 // Event listener for timer start
 startButton.addEventListener("click", function () {
   document.getElementById("start-button").style.display = "none";
   tickTimer();
   displayQuestions();
+  // storeHighScore();
 })
 
-answerButton.addEventListener("click", function () {
-  answerChoice
-});
-
-// Store High Scores
-
-// Function for high score display
-
-/*
-<section>
-  <h2>Question</h2>
-  <ol>
-    <li>Answer</li>
-    <li>Answer</li>
-    <li>Answer</li>
-    <li>Answer</li>
-  </ol>
-</section>
-*/
-
+// listening for button click on answer to questions (THIS ISNT WORKING AFTER INITIAL CLICK)
+buttons.addEventListener("click", function () {
+  console.log("click")
+})
