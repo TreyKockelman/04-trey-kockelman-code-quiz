@@ -105,9 +105,10 @@ function wrongAnswer() {
 }
 
 function correctAnswer() {
-  // highScore += 1;
+  secondsRemaining += 0;
 }
 
+// Checks to see if there are questions remaining in the array
 function hasQuestions() {
   if ((questionIndex + 1) === questions.length) {
     return false;
@@ -127,6 +128,7 @@ function storeHighScore() {
 function displayHighScore() {
   document.getElementById("question-holder").style.display = "none";
   clearInterval(timerInterval);
+  document.getElementById("initials-container").style.display = "inline";
 
 }
 
