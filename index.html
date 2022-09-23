@@ -12,7 +12,7 @@
 
 <body>
   <header>
-    <div class="high-score">High Score: </div>
+    <div class="high-score"></div>
     <div class="quiz-seconds">Timer: 90 seconds remaining</div>
   </header>
 
@@ -24,8 +24,10 @@
 
   <div id="initials-container">
     <p>Input Initials:</p>
-    <input class="initials-input"></input>
-    <button class="initials-input">Submit Score</button>
+    <input class="initials-input" id="initials-entered"></input>
+    <button class="initials-input" id="submit-button">Submit Score</button>
+    <h3>Leaderboard</h3>
+    <ol id="leaderboard"></ol>
   </div>
 
   <button id="start-button">Start Quiz</button>

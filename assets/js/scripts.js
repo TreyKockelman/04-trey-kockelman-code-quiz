@@ -9,10 +9,10 @@ var startButton = document.querySelector("#start-button"); // assigning variable
 var secondsRemaining = 90;
 var timerInterval;
 
-var highScore = localStorage.getItem("highScore");
-var initials = localStorage.getItem("initials");
+var highScores = JSON.parse(localStorage.getItem("highScores")) || []; //gets the high scores or just sets to empty object
 
 var buttonHolder = document.querySelector("#question-holder");
+var submitButton = document.querySelector("#submit-button");
 
 var questionIndex = 0; // Tells us what question we are currently on
 
@@ -64,14 +64,15 @@ function startQuiz() {
     timerText.textContent = "Timer: " + secondsRemaining + " seconds remaining"; // sets the content of the text on the timer to whatever is left
     if (secondsRemaining === 0) {
       clearInterval(timerInterval); // clears interval when timer hits zero
-      document.getElementById("question-holder").style.display = "none";
+      // document.getElementById("question-holder").style.display = "none";
       storeHighScore();
+      displayEndScreen();
     } 
   }, 1000); // sets interval tick to 1 second
   displayQuestions(questions[questionIndex]);
 };
 
-// Function for Scrolling Questions
+// Functions for Scrolling Questions
 function displayQuestions(question) {
   clearElement(document.getElementById("question-holder"));
   addElements(question, document.getElementById("question-holder"));
@@ -99,7 +100,7 @@ function addElements(arr, parentElement) {
   }
 }
 
-// Function to subtract time from timer on wrong score
+// Function to subtract time from timer on wrong score and no time subtracted on wrong score
 function wrongAnswer() {
   secondsRemaining -= 10;
 }
@@ -118,18 +119,28 @@ function hasQuestions() {
 
 // Store High Scores
 function storeHighScore() {
-  var highScore = 0;
-  var initials = "";
-  localStorage.setItem("highScore", secondsRemaining);
-  localStorage.setItem("initials", initials);
+  var initialsEntered = document.getElementById("initials-entered");
+  highScores.push({score: secondsRemaining, initials: initialsEntered.value});
+  localStorage.setItem("highScores", JSON.stringify(highScores));
+}
+
+// adds high scores to leaderboard
+function addHighScores(element) {
+  clearElement(element);
+  for (var i = 0; i < highScores.length; i++) {
+    var newEl = document.createElement("div");
+    newEl.textContent = String(` ${highScores[i].initials} : ${highScores[i].score} `)
+    element.appendChild(newEl);
+  }
 }
 
 // Function for high score display
-function displayHighScore() {
+function displayEndScreen() {
   document.getElementById("question-holder").style.display = "none";
   clearInterval(timerInterval);
   document.getElementById("initials-container").style.display = "inline";
-
+  var leaderboardList = document.getElementById("leaderboard");
+  addHighScores(leaderboardList);
 }
 
 
@@ -154,8 +165,13 @@ buttonHolder.addEventListener("click", function (evt) {
       displayQuestions(questions[questionIndex]);
     } else {
       console.log("quiz over");
-      displayHighScore();
-      storeHighScore();
+      displayEndScreen();
     }
   }
+});
+
+// listener for submit button
+submitButton.addEventListener("click", function () {
+  storeHighScore();
+  displayEndScreen();
 });
